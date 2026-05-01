@@ -1,8 +1,8 @@
-# E-commerce com Microservicos, Flask e Docker
+# E-commerce com Microserviços, Flask e Docker
 
-Este projeto e uma atividade didatica de um pequeno e-commerce usando 3 microservicos em Python com Flask. Cada servico roda em seu proprio container Docker e se comunica pela rede criada pelo Docker Compose.
+Este projeto é uma atividade didática de um pequeno e-commerce usando 3 microserviços em Python com Flask. Cada serviço roda em seu próprio container Docker e se comunica pela rede criada pelo Docker Compose.
 
-O objetivo principal e demonstrar o conceito de microservicos de forma simples: servicos separados, responsabilidades separadas e comunicacao via HTTP.
+O objetivo principal é demonstrar o conceito de microserviços de forma simples: serviços separados, responsabilidades separadas e comunicação via HTTP.
 
 ## Estrutura do projeto
 
@@ -28,39 +28,39 @@ ecommerce-microservices/
     └── Dockerfile
 ```
 
-## Papel de cada microservico
+## Papel de cada microserviço
 
 ### 1. Orquestrador
 
-O microservico orquestrador roda na porta `5000` e e responsavel por coordenar os outros servicos.
+O microserviço orquestrador roda na porta `5000` e é responsável por coordenar os outros serviços.
 
 Ele:
 
 - Exibe a interface web da loja na rota `/`.
-- Busca produtos no servico de catalogo.
-- Busca cidades e valores de frete no servico de frete.
+- Busca produtos no serviço de catálogo.
+- Busca cidades e valores de frete no serviço de frete.
 - Permite adicionar produtos ao carrinho.
 - Exibe o carrinho na rota `/carrinho`.
 - Finaliza a compra na rota `/finalizar?cidade=<cidade>`.
-- Calcula o total da compra somando subtotal dos produtos e frete.
+- Calcula o total da compra somando o subtotal dos produtos com o frete.
 
-Dentro do Docker Compose, ele chama os outros servicos usando:
+Dentro do Docker Compose, ele chama os outros serviços usando:
 
 ```text
 http://catalogo:5001
 http://frete:5002
 ```
 
-Isso e importante porque, entre containers, nao usamos `localhost`. Usamos o nome do servico definido no `docker-compose.yml`.
+Isso é importante porque, entre containers, não usamos `localhost`. Usamos o nome do serviço definido no `docker-compose.yml`.
 
-### 2. Catalogo
+### 2. Catálogo
 
-O microservico de catalogo roda na porta `5001` e guarda os produtos em memoria.
+O microserviço de catálogo roda na porta `5001` e guarda os produtos em memória.
 
 Rotas:
 
 - `GET /produtos`: retorna todos os produtos.
-- `GET /produtos/<id_produto>`: retorna um produto especifico.
+- `GET /produtos/<id_produto>`: retorna um produto específico.
 
 Produtos cadastrados:
 
@@ -71,11 +71,11 @@ Produtos cadastrados:
 
 ### 3. Frete
 
-O microservico de frete roda na porta `5002` e guarda os valores de frete em memoria.
+O microserviço de frete roda na porta `5002` e guarda os valores de frete em memória.
 
 Rotas:
 
-- `GET /cidades`: retorna todas as cidades disponiveis.
+- `GET /cidades`: retorna todas as cidades disponíveis.
 - `GET /frete/<cidade>`: retorna o valor do frete para uma cidade.
 
 Cidades cadastradas:
@@ -93,13 +93,13 @@ Na pasta raiz do projeto, execute:
 docker compose up --build
 ```
 
-Esse comando constroi as imagens e inicia os 3 containers:
+Esse comando constrói as imagens e inicia os 3 containers:
 
 - `orquestrador`
 - `catalogo`
 - `frete`
 
-## Como acessar a aplicacao
+## Como acessar a aplicação
 
 Depois que os containers estiverem rodando, acesse a loja pelo navegador:
 
@@ -109,19 +109,19 @@ http://localhost:5000
 
 ## Como testar as APIs separadamente
 
-Catalogo de produtos:
+Catálogo de produtos:
 
 ```text
 http://localhost:5001/produtos
 ```
 
-Cidades disponiveis para frete:
+Cidades disponíveis para frete:
 
 ```text
 http://localhost:5002/cidades
 ```
 
-Buscar um produto especifico:
+Buscar um produto específico:
 
 ```text
 http://localhost:5001/produtos/arroz
@@ -150,12 +150,12 @@ Na tela inicial:
 
 O orquestrador vai:
 
-1. Buscar os produtos do carrinho no microservico de catalogo.
-2. Buscar o frete da cidade escolhida no microservico de frete.
+1. Buscar os produtos do carrinho no microserviço de catálogo.
+2. Buscar o frete da cidade escolhida no microserviço de frete.
 3. Somar o subtotal dos produtos com o frete.
 4. Exibir o resumo da compra em HTML.
 
-Tambem e possivel testar diretamente uma compra antiga, com apenas um produto:
+Também é possível testar diretamente uma compra antiga, com apenas um produto:
 
 ```text
 http://localhost:5000/comprar/arroz/maceio
@@ -171,7 +171,7 @@ docker compose down
 
 ## Rodando manualmente sem Docker Compose
 
-Esta etapa e opcional. Ela mostra como criar a rede, construir as imagens e executar cada container manualmente.
+Esta etapa é opcional. Ela mostra como criar a rede, construir as imagens e executar cada container manualmente.
 
 Crie a rede Docker:
 
@@ -210,11 +210,11 @@ docker rm orquestrador catalogo frete
 
 ## Tratamento de erros
 
-O projeto possui mensagens amigaveis para casos como:
+O projeto possui mensagens amigáveis para casos como:
 
 - Produto inexistente.
 - Cidade inexistente.
-- Falha de comunicacao entre o orquestrador e algum microservico.
+- Falha de comunicação entre o orquestrador e algum microserviço.
 
 Exemplos:
 
@@ -224,12 +224,12 @@ http://localhost:5000/comprar/arroz/cidade-inexistente
 http://localhost:5000/finalizar?cidade=cidade-inexistente
 ```
 
-## Observacoes
+## Observações
 
-- Nao ha banco de dados.
-- Nao ha autenticacao.
-- Nao ha Kubernetes.
-- Nao ha frontend separado.
-- Os dados ficam em dicionarios em memoria.
-- Cada microservico possui seu proprio `Dockerfile`.
-- Cada aplicacao Flask roda com `host="0.0.0.0"`.
+- Não há banco de dados.
+- Não há autenticação.
+- Não há Kubernetes.
+- Não há frontend separado.
+- Os dados ficam em dicionários em memória.
+- Cada microserviço possui seu próprio `Dockerfile`.
+- Cada aplicação Flask roda com `host="0.0.0.0"`.
