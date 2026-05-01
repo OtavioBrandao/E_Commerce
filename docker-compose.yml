@@ -1,0 +1,31 @@
+services:
+  orquestrador:
+    build: ./orquestrador
+    container_name: orquestrador
+    ports:
+      - "5000:5000"
+    depends_on:
+      - catalogo
+      - frete
+    networks:
+      - ecommerce-net
+
+  catalogo:
+    build: ./catalogo
+    container_name: catalogo
+    ports:
+      - "5001:5001"
+    networks:
+      - ecommerce-net
+
+  frete:
+    build: ./frete
+    container_name: frete
+    ports:
+      - "5002:5002"
+    networks:
+      - ecommerce-net
+
+networks:
+  ecommerce-net:
+    driver: bridge
